@@ -1,0 +1,249 @@
+<betslip>
+  <div class="betslip-container">
+    <!---->
+    <bf-tabs ng-if="vm.tabs.length" selected-tab-id="POTENTIAL" tabs="vm.tabs" use-parent-dimensions="true"
+      on-tab-click-callback="vm.onTabClickCallback">
+      <!---->
+      <section class="mod-tabs" data-ng-if="tabsCtrl.tabs &amp;&amp; tabsCtrl.tabs.length">
+        <!---->
+        <ul class="tabs-container" data-ng-if="tabsCtrl.tabs.length > 1 || !tabsCtrl.data.hideOnSingleTab"
+          data-ng-style="{'height': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabHeight + 'px'}"
+          data-bf-tabs-calc-max-number-of-children=""
+          data-bf-tabs-on-max-number-of-children-change="tabsCtrl.api.onMaxNumberOfChildrenChange"
+          data-bf-tabs-tab-width="100" data-bf-tabs-tab-margin="1" data-bf-tabs-allowed-tabs-update-trigger="">
+          <!-- Element Tab -->
+          <!---->
+          <li class="tab-container POTENTIAL active"
+            data-ng-repeat="tab in tabsCtrl.tabs | limitTo : tabsCtrl.api.calcTabsSize() : 0"
+            data-ng-class="[tab.id, {active: tab.id === tabsCtrl.data.selectedTab.id}]"
+            data-ng-click="tabsCtrl.api.onTabClickFn(tab)" data-ng-style="{
+  'width': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabWidth + 'px',
+  'line-height': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabHeight + 'px'
+}"><a class="tab-heading" data-ng-href="">
+              <!-- Thumbnail container -->
+              <!---->
+              <!-- Label container -->
+              <!---->
+              <h4 class="tab-label" title="" data-ng-if="tab.label" data-ng-class="{'with-thumbnail': tab.thumbnail}">
+                Place bets</h4>
+              <!---->
+            </a></li>
+          <!---->
+          <li class="tab-container OPEN"
+            data-ng-repeat="tab in tabsCtrl.tabs | limitTo : tabsCtrl.api.calcTabsSize() : 0"
+            data-ng-class="[tab.id, {active: tab.id === tabsCtrl.data.selectedTab.id}]"
+            data-ng-click="tabsCtrl.api.onTabClickFn(tab)" data-ng-style="{
+  'width': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabWidth + 'px',
+  'line-height': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabHeight + 'px'
+}"><a class="tab-heading" data-ng-href="">
+              <!-- Thumbnail container -->
+              <!---->
+              <!-- Label container -->
+              <!---->
+              <h4 class="tab-label" title="" data-ng-if="tab.label" data-ng-class="{'with-thumbnail': tab.thumbnail}">
+                Open bets</h4>
+              <!---->
+            </a></li>
+          <!---->
+          <li class="tab-container XSELL"
+            data-ng-repeat="tab in tabsCtrl.tabs | limitTo : tabsCtrl.api.calcTabsSize() : 0"
+            data-ng-class="[tab.id, {active: tab.id === tabsCtrl.data.selectedTab.id}]"
+            data-ng-click="tabsCtrl.api.onTabClickFn(tab)" data-ng-style="{
+  'width': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabWidth + 'px',
+  'line-height': tabsCtrl.data.useParentDimensions ? '' : tabsCtrl.data.tabHeight + 'px'
+}"><a class="tab-heading" data-ng-href="">
+              <!-- Thumbnail container -->
+              <!---->
+              <!-- Label container -->
+              <!---->
+              <h4 class="tab-label" title="" data-ng-if="tab.label" data-ng-class="{'with-thumbnail': tab.thumbnail}">
+                Games</h4>
+              <!---->
+            </a></li>
+          <!---->
+          <!-- More Tab -->
+          <!---->
+        </ul>
+        <!---->
+        <!---->
+        <div class="tab-content" data-ng-repeat="tab in tabsCtrl.tabs"
+          data-bf-tabs-lazy-load="tabsCtrl.api.showTabContent(tab)" data-bf-tabs-lazy-load-content="tab.content"
+          data-bf-tabs-lazy-load-template-url="app/containers/betslip/place-bets/place-bets.html">
+          <!---->
+          <div class="lazy-load-directive" data-ng-if="isLoaded" data-ng-show="isVisible">
+            <!---->
+            <div data-ng-include="templateUrl">
+              <!---->
+              <section ng-if="content.selectedTab === 'POTENTIAL'" ng-switch="content.currentView">
+                <!---->
+                <!---->
+                <receipt market="content.market" ng-switch-when="RECEIPT">
+                  <form class="ng-pristine ng-valid">
+                    <betslip-header main-title="$ctrl.receiptTitle">
+                      <section class="betslip__header">
+                        <h2 class="betslip__header__title" ng-bind="$ctrl.mainTitle">Receipt</h2>
+                        <ng-transclude></ng-transclude>
+                      </section>
+                    </betslip-header>
+                    <div class="bets-container">
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <div class="receipt__cancelled-bets" ng-if="$ctrl.hasCancelledBets">
+                        <betslip-bets-state-header group-title="$ctrl.groupTitle.cancelled">
+                          <header class="bets-state-header">
+                            <h2 class="bets-state-header__title" ng-bind="$ctrl.groupTitle">Cancelled</h2>
+                            <!---->
+                            <!---->
+                            <!---->
+                            <!---->
+                          </header>
+                        </betslip-bets-state-header>
+                        <!---->
+                        <betslip-bets-header side="$ctrl.backBetsSide" market-unit="$ctrl.market.marketUnit"
+                          betting-behaviour="$ctrl.market.bettingBehaviour"
+                          ng-if="$ctrl.receiptBets.cancelled.back.length > 0">
+                          <header class="betslip-bets-header betslip-bets-header--back"
+                            ng-class="'betslip-bets-header--' + $ctrl.side"><span class="betslip-bets-header__cell"
+                              ng-bind="$ctrl.sideLabel">Back (Bet For)</span>
+                            <div class="betslip-bets-header__values"><span
+                                class="betslip-bets-header__cell betslip-bets-header__cell--fixed-size"><span
+                                  translate="BETSLIP.ODDS">Odds</span> </span>
+                              <!----><span class="betslip-bets-header__cell betslip-bets-header__cell--fixed-size"><span
+                                  translate="BETSLIP.STAKE" ng-click="$ctrl.onStakeClick($event)" ng-class="{'betslip-bets-header__dutching-link': 
+  $ctrl.isPotentialView &amp;&amp; $ctrl.labelsMapper.isDutchingStakeVisible }">Stake</span>
+                                <!---->
+                              </span>
+                              <!----><span class="betslip-bets-header__cell betslip-bets-header__cell--fixed-size"
+                                ng-if="$ctrl.labelsMapper.isLiabilityVisible &amp;&amp; !$ctrl.hasLiabilityOptions"><span
+                                  translate="BETSLIP.PROFIT">Profit</span></span>
+                              <!---->
+                              <!---->
+                            </div>
+                          </header>
+                        </betslip-bets-header>
+                        <!---->
+                        <!---->
+                        <betslip-bet ng-repeat="bet in $ctrl.receiptBets.cancelled.back" bet="bet"
+                          show-bet-info="$ctrl.showBetInfo" betting-behaviour="$ctrl.market.bettingBehaviour"
+                          side="$ctrl.backBetsSide" market-id="$ctrl.market.id"
+                          liability-view="$ctrl.liabilityViews.profit" show-pnl="$ctrl.showBetPnl"
+                          market-unit="$ctrl.market.marketUnit" on-click-quick-deposit="$ctrl.openQuickDeposit()">
+                          <section class="betslip-bet betslip-bet--back" ng-class="'betslip-bet--' + $ctrl.side">
+                            <div class="betslip-bet__container">
+                              <div class="betslip-bet__item betslip-bet__runner-name" ng-bind="$ctrl.bet.runner.name">
+                                Holstein Kiel</div>
+                              <div class="betslip-bet__runner-details">
+                                <!---->
+                                <div class="betslip-bet__item betslip-bet__runner-detail" ng-bind-template="2.08">2.08
+                                </div>
+                                <div class="betslip-bet__item betslip-bet__runner-detail" ng-bind-template="€1.00">€1.00
+                                </div>
+                                <!---->
+                                <div class="betslip-bet__item betslip-bet__runner-detail" ng-if="$ctrl.liabilityValue"
+                                  ng-bind="$ctrl.liabilityValue">€1.08</div>
+                                <!---->
+                              </div>
+                            </div>
+                            <!---->
+                            <!---->
+                            <div class="betslip-bet__placed-information" ng-if="$ctrl.showBetInfo">
+                              <betslip-bet-placed-information bet-id="$ctrl.bet.betID"
+                                bet-date="$ctrl.bet.dateMilliseconds" show-matched-date="$ctrl.showMatchedDate"
+                                show-submitted-date="$ctrl.showSubmittedDate" is-free-bet="$ctrl.bet.isFreeBet">
+                                <div class="bet-placed-information__container">
+                                  <div class="bet-placed-information__element">
+                                    <!----> <span class="bet-placed-information__reference"
+                                      ng-bind-template="Ref: 258321349680">Ref: 258321349680</span> <span
+                                      ng-bind="$ctrl.betDateInformation"></span>
+                                  </div>
+                                </div>
+                              </betslip-bet-placed-information>
+                            </div>
+                            <!---->
+                            <betslip-bet-report message="$ctrl.reportMessage">
+                              <!---->
+                              <div class="bet-report" ng-if="$ctrl.message"><i class="bet-report__message"
+                                  ng-bind="$ctrl.message">Your €1.00 bet at 2.08 was cancelled.</i></div>
+                              <!---->
+                            </betslip-bet-report>
+                            <!---->
+                          </section>
+                        </betslip-bet>
+                        <!---->
+                        <!---->
+                        <!---->
+                      </div>
+                      <!---->
+                      <!---->
+                    </div>
+                    <betslip-receipt-footer on-cancel-all-above="$ctrl.onCancelAllAbove()"
+                      on-view-open-bets="$ctrl.onViewOpenBets()" on-view-place-bets="$ctrl.onViewPlaceBets()"
+                      on-update-bets="$ctrl.onUpdateBets()" buttons-visibility="$ctrl.buttonsVisibility">
+                      <footer class="betslip-footer receipt-footer">
+                        <div class="receipt-footer__actions">
+                          <div>
+                            <!---->
+                            <!---->
+                          </div>
+                          <div class="receipt-footer__right-actions">
+                            <!---->
+                            <highlighted-button class="receipt-footer__action" size="small" focused="true"
+                              ng-if="$ctrl.buttonsVisibility.viewOpenBets" on-click="$ctrl.onViewOpenBets()">
+                              <ours-button color="yellow-400" on-click="$ctrl.onClick()" button-type="submit"
+                                size="small" disabled="$ctrl.disabled" focused="$ctrl.focused"
+                                tab-index="$ctrl.tabIndex">
+                                <button type="submit" class="DFMoS Qe-26 AUP11 _8USKG ge-UC" ng-class="{
+  &quot;SlBqR&quot;: $ctrl.selected,
+  &quot;azaq9&quot;: $ctrl.disabled
+}" ng-attr-is-selected="{{$ctrl.selected}}" ng-disabled="$ctrl.disabled" ng-attr-tabindex="{{$ctrl.tabIndex}}"
+                                  ng-click="$ctrl.onClick()" ours-focus="$ctrl.focused" ng-transclude="">
+                                  <ng-transclude>View open bets</ng-transclude>
+                                </button>
+                              </ours-button>
+                            </highlighted-button>
+                            <!---->
+                            <!---->
+                            <!---->
+                          </div>
+                        </div>
+                      </footer>
+                    </betslip-receipt-footer>
+                  </form>
+                </receipt>
+                <!---->
+                <!---->
+                <!---->
+              </section>
+              <!---->
+            </div>
+          </div>
+          <!---->
+        </div>
+        <!---->
+        <div class="tab-content" data-ng-repeat="tab in tabsCtrl.tabs"
+          data-bf-tabs-lazy-load="tabsCtrl.api.showTabContent(tab)" data-bf-tabs-lazy-load-content="tab.content"
+          data-bf-tabs-lazy-load-template-url="app/containers/betslip/open-bets/open-bets.html">
+          <!---->
+          <div class="lazy-load-directive ng-hide" data-ng-if="isLoaded" data-ng-show="isVisible">
+            <!---->
+            <div data-ng-include="templateUrl">
+              <!---->
+            </div>
+          </div>
+          <!---->
+        </div>
+        <!---->
+        <div class="tab-content" data-ng-repeat="tab in tabsCtrl.tabs"
+          data-bf-tabs-lazy-load="tabsCtrl.api.showTabContent(tab)" data-bf-tabs-lazy-load-content="tab.content"
+          data-bf-tabs-lazy-load-template-url="app/containers/betslip/games/games.html">
+          <!---->
+        </div>
+        <!---->
+      </section>
+      <!---->
+    </bf-tabs>
+    <!---->
+  </div>
+</betslip>

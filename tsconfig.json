@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "target": "esnext", // Использование всех новых фич ES
+      "module": "esnext", // Генерирование ESM (необходимо для Rollup)
+      "noImplicitAny": true, // Появление ошибки, при неявном использовании any
+      "moduleResolution": "node", // Использование нодовского нахождения модулей (необходимо для Rollup)
+      "resolveJsonModule": true // Разрешение импортирования значений из json файлов (получение version из package.json)
+  },
+  "include": [
+    "./utils/**/*.ts",
+    "./bookmakers/template/**/*.ts",
+    "./bookmakers/template/**/*.ts",
+    "./src/**/*.ts"
+  ]
+}
