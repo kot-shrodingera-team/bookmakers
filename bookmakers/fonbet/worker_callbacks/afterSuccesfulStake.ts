@@ -9,7 +9,7 @@ import { getWorkerParameter, germesLog, LogType } from '../../../utils';
 // };
 
 export const resultCoefficientSelector =
-  '.coupon__table-stake--rkHNN, .coupon__info-item--3IfP_[title="Общий коэффициент"] .coupon__info-text--WpI3L';
+  '[class*="coupon__table-stake--"], .coupon__info-item--3IfP_[title="Общий коэффициент"] .coupon__info-text--WpI3L';
 
 const resultCoefficientOptions: StakeInfoValueOptions = {
   name: 'coefficient',
