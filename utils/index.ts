@@ -1019,3 +1019,11 @@ export const getSessionData = (key: string): string => {
 export const setSessionData = (key: string, value: string): void => {
   worker.SetSessionData(`${window.germesData.bookmakerName}.${key}`, value);
 };
+
+export const sendErrorMessage = (message: string): void => {
+  worker.Helper.SendInformedMessage(
+    `В ${window.germesData.bookmakerName} произошла ошибка принятия ставки:\n` +
+      `${message}\n` +
+      `${stakeInfoString()}`,
+  );
+};

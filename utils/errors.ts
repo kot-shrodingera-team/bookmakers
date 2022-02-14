@@ -12,3 +12,17 @@ export class NewUrlError extends Error {
     Object.setPrototypeOf(this, NewUrlError.prototype);
   }
 }
+
+export class BetProcessingError extends Error {
+  constructor(message?: string) {
+    super(message);
+    Object.setPrototypeOf(this, BetProcessingError.prototype);
+  }
+}
+
+export class BetProcessingSuccess extends Error {
+  constructor(message?: string) {
+    super(message);
+    Object.setPrototypeOf(this, BetProcessingSuccess.prototype);
+  }
+}

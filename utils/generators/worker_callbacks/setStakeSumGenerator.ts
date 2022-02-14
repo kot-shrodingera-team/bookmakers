@@ -154,7 +154,6 @@ const setStakeSumGenerator =
       }
       return false;
     }
-    worker.StakeInfo.Summ = sum;
     return true;
   };
 
@@ -190,7 +189,6 @@ export const clearStakeSumGenerator =
         fireEvent(inputElement, 'input');
       }
     }
-    worker.StakeInfo.Summ = 0;
     return true;
   };
 

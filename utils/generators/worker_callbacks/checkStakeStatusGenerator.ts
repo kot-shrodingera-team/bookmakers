@@ -20,7 +20,11 @@ const checkStakeStatusGenerator =
       germesLog('[fake] Ставка принята', LogType.SUCCESS);
       return true;
     }
-    if (window.germesData.betProcessingStep === 'success') {
+    if (window.germesData.betProcessing.betPlaced === null) {
+      germesLog('Неопределённый результат ставки', LogType.FATAL);
+      return false;
+    }
+    if (window.germesData.betProcessing.betPlaced) {
       germesLog('Ставка принята', LogType.SUCCESS);
       options.updateBalance();
       return true;

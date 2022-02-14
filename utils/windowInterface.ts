@@ -1,3 +1,5 @@
+import BetProcessing from './BetProcessing';
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface GermesDataAdditionalFields {}
@@ -6,11 +8,11 @@ declare global {
     minimumStake: number;
     maximumStake: number;
     doStakeTime: Date;
-    betProcessingStep: string;
-    betProcessingAdditionalInfo: string;
+    // betProcessingStep: string;
+    // betProcessingAdditionalInfo: string;
     betProcessingTimeout: number;
     stakeDisabled: boolean;
-    stopBetProcessing: () => void;
+    // stopBetProcessing: () => void;
     // Для ручника
     updateManualDataIntervalId: number;
     stopUpdateManualData: boolean;
@@ -18,6 +20,9 @@ declare global {
     manualCoefficient: number;
     manualParameter: number;
     manualStakeEnabled: boolean;
+
+    betProcessing: BetProcessing;
+
     additionalFields: GermesDataAdditionalFields;
   }
 

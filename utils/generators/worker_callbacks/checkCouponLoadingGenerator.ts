@@ -1,17 +1,18 @@
 import { getWorkerParameter, germesLog, LogType, stakeInfoString } from '../..';
+import BetProcessing from '../../BetProcessing';
 
 /**
  * Опции генератора колбэка checkCouponLoading (проверка статуса обработки ставки)
  */
 export interface CheckCouponLoadingGeneratorOptions {
   /**
-   * Асинхронная функция проверки статуса обработки
+   * Функция инициализации объекта BetProcessing
    */
-  asyncCheck: () => Promise<void>;
+  createBetProcessing: () => BetProcessing;
   /**
-   * Флаг отключения вывода лога "Обработка ставки", по умолчанию false
+   * Флаг вывода шага обработки ставки каждую итерацию, по умолчанию false
    */
-  disableLog?: boolean;
+  stepDebug?: boolean;
 }
 
 /**
@@ -45,42 +46,30 @@ const checkCouponLoadingGenerator =
       );
       return false;
     }
-    const step = window.germesData.betProcessingStep;
-    const additionalInfo = window.germesData.betProcessingAdditionalInfo
-      ? ` (${window.germesData.betProcessingAdditionalInfo})`
-      : '';
-    switch (step) {
-      case 'beforeStart':
-        options.asyncCheck();
-        window.germesData.betProcessingStep = 'processing';
-        return true;
-      case 'processing':
-        if (!options.disableLog) {
-          germesLog(`Обработка ставки${additionalInfo}`, LogType.PROGRESS);
+    if (!window.germesData.betProcessing) {
+      window.germesData.betProcessing = options.createBetProcessing();
+      (async () => {
+        try {
+          await window.germesData.betProcessing.start();
+        } catch (error) {
+          germesLog(
+            `Ошибка обработки ставки:\n${error.message}`,
+            LogType.FATAL,
+          );
         }
-        return true;
-      case 'error':
-        germesLog('Обработка ставки завершена (ошибка)', LogType.ACTION);
-        return false;
-      case 'success':
-        germesLog('Обработка ставки завершена (принята)', LogType.ACTION);
-        return false;
-      case 'reopened':
-        germesLog(
-          'Обработка ставки завершена (ставка переоткрыта)',
-          LogType.ACTION,
-        );
-        return false;
-      case 'reopen':
-        germesLog('Переоткрытие купона', LogType.PROGRESS);
-        return true;
-      default:
-        germesLog(
-          `Обработка ставки (!default)${additionalInfo}`,
-          LogType.PROGRESS,
-        );
-        return true;
+      })();
+      return true;
     }
+    if (options.stepDebug) {
+      germesLog(
+        `Шаг обработки ставки: ${window.germesData.betProcessing.step}`,
+        LogType.DEV_INFO,
+      );
+    }
+    if (window.germesData.betProcessing.betPlaced !== null) {
+      return false;
+    }
+    return true;
   };
 
 export default checkCouponLoadingGenerator;

@@ -21,7 +21,8 @@ worker.SetCallBacks(
   },
   () => {
     window.germesData.doStakeTime = new Date(); // Чтобы в checkCouponLoading не было ошибки при определении timePassedSinceDoStake
-    window.germesData.betProcessingStep = 'beforeStart'; // Чтобы checkCouponLoading корректно начал обработку
+    // window.germesData.betProcessingStep = 'beforeStart'; // Чтобы checkCouponLoading корректно начал обработку
+    window.germesData.betProcessing = null;
     return true;
   },
   checkCouponLoading,
