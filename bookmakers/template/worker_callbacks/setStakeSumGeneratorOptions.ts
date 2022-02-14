@@ -3,7 +3,7 @@ import { SetStakeSumGeneratorOptions } from '../../../utils/generators/worker_ca
 import { sumInputSelector } from '../stake_info/getCurrentSumGeneratorOptions';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const preCheck = (sum: number): boolean => {
+const preCheck = async (sum: number): Promise<boolean> => {
   return true;
 };
 
