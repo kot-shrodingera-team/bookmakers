@@ -1,4 +1,5 @@
 import getCoefficient from '../../../src/stake_info/getCoefficient';
+import getParameter from '../../../src/stake_info/getParameter';
 import { germesLog, LogType, text } from '../../../utils';
 import { DoStakeGeneratorOptions } from '../../../utils/generators/worker_callbacks/doStakeGenerator';
 import preBetCheck from '../helpers/preBetCheck';
@@ -106,6 +107,7 @@ const doStakeGeneratorOptions: DoStakeGeneratorOptions = {
   ],
   // disabledCheck: false,
   getCoefficient,
+  getParameter,
   // postCheck,
   // context: () => document,
 };

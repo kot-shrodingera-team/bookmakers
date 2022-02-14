@@ -1,4 +1,5 @@
 import getCoefficient from '../../../src/stake_info/getCoefficient';
+import getParameter from '../../../src/stake_info/getParameter';
 import { DoStakeGeneratorOptions } from '../../../utils/generators/worker_callbacks/doStakeGenerator';
 
 const preCheck = (): boolean => {
@@ -25,6 +26,7 @@ const doStakeGeneratorOptions: DoStakeGeneratorOptions = {
   ],
   disabledCheck: false,
   getCoefficient,
+  getParameter,
   postCheck,
   context: () => document,
 };

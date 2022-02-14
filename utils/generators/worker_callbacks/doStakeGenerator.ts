@@ -38,6 +38,10 @@ export interface DoStakeGeneratorOptions {
    */
   getCoefficient: () => number;
   /**
+   * Функция получения параметра
+   */
+  getParameter: () => number;
+  /**
    * API метод попытки ставки. Если присутствует, будет выполняется вместо клика по кнопке
    *
    * Если вернёт false, попытка ставки считается не успешной
@@ -89,6 +93,12 @@ const doStakeGenerator =
     );
     if (actualCoefficient < worker.StakeInfo.Coef) {
       germesLog('Коэффициент перед ставкой упал', LogType.ERROR);
+      return false;
+    }
+    const actualParameter = options.getParameter();
+    germesLog(`Параметр перед ставкой: "${actualParameter}"`, LogType.INFO);
+    if (actualParameter !== worker.StakeInfo.Parametr) {
+      germesLog('Параметр перед ставкой изменился', LogType.ERROR);
       return false;
     }
     if (options.errorClasses) {
