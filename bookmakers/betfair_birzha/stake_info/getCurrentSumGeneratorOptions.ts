@@ -1,3 +1,4 @@
+import { round } from '../../../utils';
 import { StakeInfoValueOptions } from '../../../utils/generators/stake_info/getStakeInfoValueGenerator';
 
 export const sumInputSelector = '.betslip-size-input';
@@ -23,7 +24,11 @@ const getCurrentSumGeneratorOptions: StakeInfoValueOptions = {
   },
   zeroValues: [''],
   // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // modifyValue: (value: number, extractType: string) => value,
+  modifyValue: (value: number /* , extractType: string */) => {
+    return window.germesData.additionalFields.isLay
+      ? round(value / (window.germesData.additionalFields.rawCoefficient - 1))
+      : value;
+  },
   // disableLog: false,
 };
 

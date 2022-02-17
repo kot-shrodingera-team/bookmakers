@@ -2,16 +2,9 @@ import getCoefficient from '../../../src/stake_info/getCoefficient';
 import getParameter from '../../../src/stake_info/getParameter';
 import { germesLog, LogType } from '../../../utils';
 import { DoStakeGeneratorOptions } from '../../../utils/generators/worker_callbacks/doStakeGenerator';
+import setCoefficient from '../helpers/setCoefficient';
 
-// const preCheck = (): boolean => {
-//   return true;
-// };
-
-// const apiMethod = (): boolean => {
-//   return true;
-// };
-
-const postCheck = (): boolean => {
+const preCheck = (): boolean => {
   const doStakeButton = document.querySelector(
     '[on-click="$ctrl.onPlaceBetsClick()"] button[type="submit"]',
   );
@@ -23,11 +16,28 @@ const postCheck = (): boolean => {
     germesLog('Кнопка ставки недоступна', LogType.ERROR);
     return false;
   }
+  // Перед ставкой устанавливаем коэффициент на тот, что был в момент считывания StakeInfo
+  setCoefficient(window.germesData.additionalFields.rawCoefficient);
+
+  // Для тестов отмены ставок
+  // if (window.germesData.additionalFields.isLay) {
+  //   setCoefficient(1.01);
+  // } else {
+  //   setCoefficient(10);
+  // }
   return true;
 };
 
+// const apiMethod = (): boolean => {
+//   return true;
+// };
+
+// const postCheck = (): boolean => {
+//   return true;
+// };
+
 const doStakeGeneratorOptions: DoStakeGeneratorOptions = {
-  // preCheck,
+  preCheck,
   doStakeButtonSelector:
     '[on-click="$ctrl.onPlaceBetsClick()"] button[type="submit"]',
   // apiMethod,
@@ -40,7 +50,7 @@ const doStakeGeneratorOptions: DoStakeGeneratorOptions = {
   disabledCheck: false,
   getCoefficient,
   getParameter,
-  postCheck,
+  // postCheck,
   // context: () => document,
 };
 

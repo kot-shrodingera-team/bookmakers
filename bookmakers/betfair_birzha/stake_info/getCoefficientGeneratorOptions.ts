@@ -1,3 +1,4 @@
+import { germesLog, LogType } from '../../../utils';
 import { StakeInfoValueOptions } from '../../../utils/generators/stake_info/getStakeInfoValueGenerator';
 import commissionCoefficient from '../helpers/commissionCoefficient';
 import getRawCoefficient from '../helpers/getRawCoefficient';
@@ -8,11 +9,14 @@ import invertCoefficient from '../helpers/invertCoefficient';
 const getCoefficientGeneratorOptions: StakeInfoValueOptions = {
   name: 'coefficient',
   fixedValue: () => {
-    let coefficient = getRawCoefficient();
-    if (window.germesData.additionalFields.isLay) {
-      coefficient = invertCoefficient(coefficient);
-    }
-    return commissionCoefficient(coefficient);
+    const rawCoefficient = getRawCoefficient();
+    germesLog(`Raw Coefficient: ${rawCoefficient}`, LogType.INFO);
+    window.germesData.additionalFields.rawCoefficient = rawCoefficient;
+    return commissionCoefficient(
+      window.germesData.additionalFields.isLay
+        ? invertCoefficient(rawCoefficient)
+        : rawCoefficient,
+    );
   },
   // valueFromText: {
   //   text: {

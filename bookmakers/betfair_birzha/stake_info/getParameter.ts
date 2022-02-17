@@ -34,12 +34,29 @@ const getParameter = (): number => {
     return 0;
   }
 
-  const parameterRegex = /([+-]?\d+(?:\.\d+)?)/;
-  const parameterMatch = betName.match(parameterRegex);
-  if (parameterMatch) {
-    return Number(parameterMatch[1]);
+  let parameter = -6666;
+
+  const doubleParameterRegex = /([+-]?\d+(?:\.\d+)?) & ([+-]?\d+(?:\.\d+)?)$/;
+  const doubleParameterMatch = betName.match(doubleParameterRegex);
+  const singleParameterRegex = /([+-]?\d+(?:\.\d+)?)(?: Goals)?$/;
+  const singleParameterMatch = betName.match(singleParameterRegex);
+
+  if (doubleParameterMatch) {
+    parameter =
+      (Number(doubleParameterMatch[1]) + Number(doubleParameterMatch[2])) / 2;
+  } else if (singleParameterMatch) {
+    parameter = Number(singleParameterMatch[1]);
   }
-  return -6666;
+
+  if (
+    parameter !== -6666 &&
+    /handicap/i.test(marketName) &&
+    window.germesData.additionalFields.isLay
+  ) {
+    return -parameter;
+  }
+
+  return parameter;
 };
 
 export default getParameter;

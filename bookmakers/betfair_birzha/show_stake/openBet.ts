@@ -41,10 +41,10 @@ const openBet = async (): Promise<void> => {
     );
   }
   if (allAvailableToLay !== undefined) {
-    worker.Helper.WriteLine('Lay ставка');
+    germesLog('Lay ставка', LogType.DEV_INFO);
     window.germesData.additionalFields.isLay = true;
   } else {
-    worker.Helper.WriteLine('Back ставка');
+    germesLog('Back ставка', LogType.DEV_INFO);
     window.germesData.additionalFields.isLay = false;
   }
   const betType = window.germesData.additionalFields.isLay ? 'lay' : 'back';
