@@ -1,0 +1,97 @@
+<div id="bsBet" class="bsBet" pid="10358354" pos="1" valid="false" lchg="true" mult="1.63000011444092" source="2">
+
+  <div class="closeWinButton" onclick="betSlipRemove(10358354,1);"></div>
+  <div class="gameTitle">RUSLAN PAVLOV vs. ALEXANDER EKZHANOV</div>
+  <div class="propTitle">
+    <span class="caption">
+      Proposition:</span>Player to Win Set 4
+  </div>
+  <div class="selection">
+    <div class="col-md-8">
+      <span class="name"><span class="caption">
+          Outcome:</span>RUSLAN PAVLOV
+      </span>
+    </div>
+    <div class="col-md-4 oddsText">
+
+      <div class="imgPointsDown"></div>
+
+      <span id="ctl00_spanLine" class="line"> 3.75</span>
+    </div>
+  </div>
+  <div class="col-md-12 noBetAmtDisp" style="display: none;">
+    Please enter bet amount
+  </div>
+  <div class="col-md-12 betAmtDisp">
+    <span class="caption">
+      Risking</span>
+    <span class="riskAmtValue">1.00</span>
+    <span class="caption">
+      To win</span>
+    <span class="winAmtValue">1.63</span>
+  </div>
+
+  <ul class="col-md-12 betErrors">
+    <div class="row">
+
+
+      <div class="col-md-1" style="padding-right: 0px;">
+        <div class="imgLineHasChanged"></div>
+      </div>
+
+      <div class="col-sm-6" style="padding-right: 0px;">
+
+        <li>Price has changed to </li>
+
+      </div>
+
+      <div class="line chgDown">2.63</div>
+    </div>
+  </ul>
+
+  <div class="betAmtFrm">
+    <table class="table table-condensed" style="width: 100%;">
+      <tbody>
+        <tr style="width: 100%;">
+          <td style="width: 50%;">
+            <span class="caption" style="width: 50%;">
+              Bet Amount</span>
+            <br>
+            <span class="maxBetAmt" style="width: 50%;">(Max. Bet: $1.00)</span>
+          </td>
+          <td style="width: 50%;">
+
+            <div id="dropbetamount" class="input-append btn-group">
+              <input name="BetAmt" class="txtBetAmt" id="BetAmtInput" maxlength="10" type="text" value=""
+                onkeypress="return isNumber(this,event)">
+              <a class="comboboxtoggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" id="Amounts">
+                <li default="100.00"><a href="#">5.00</a></li>
+                <li default="100.00"><a href="#">10.00</a></li>
+                <li default="100.00"><a href="#">25.00</a></li>
+                <li default="100.00"><a href="#">50.00</a></li>
+                <li default="100.00"><a href="#">100.00</a></li>
+                <li default="100.00"><a href="#">1000.00</a></li>
+              </ul>
+            </div>
+
+          </td>
+        </tr>
+        <tr style="width: 100%;">
+          <td><span style="width: 50%;" class="caption">
+              To Win</span></td>
+          <td>
+
+            <input type="text" class="txtToWinAmt" onkeypress="return isNumber(this,event)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="betButtons">
+    <button id="btnPostOne" type="button" class="btnPostOne" onclick="betSlipPostOne(this,event);" disabled="disabled">
+      PLACE BET</button>
+  </div>
+</div>
