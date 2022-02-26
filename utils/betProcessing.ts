@@ -87,7 +87,10 @@ class BetProcessing {
         return promise;
       });
       try {
-        this.stepResult = await Promise.any(promises);
+        this.stepResult =
+          'any' in Promise
+            ? await Promise.any(promises)
+            : await Promise.race(promises);
       } catch (error) {
         // Если все промисы отклонены (таймаут)
         this.step = 'timeout';
