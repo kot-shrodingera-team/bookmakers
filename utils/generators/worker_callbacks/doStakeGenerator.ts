@@ -9,7 +9,7 @@ export interface DoStakeGeneratorOptions {
    *
    * Если вернёт false, попытка ставки считается не успешной
    */
-  preCheck?: () => boolean;
+  preCheck?: () => boolean | Promise<boolean>;
   /**
    * Селектор элемента кнопки ставки
    */
@@ -75,7 +75,7 @@ const doStakeGenerator =
     }
     const context = options.context ? options.context() : document;
     germesLog('Делаем ставку', LogType.ACTION);
-    if (options.preCheck && !options.preCheck()) {
+    if (options.preCheck && !(await options.preCheck())) {
       return false;
     }
     const stakeButton = context.querySelector<HTMLButtonElement>(
