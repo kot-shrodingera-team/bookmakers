@@ -15,7 +15,7 @@ declare global {
 
 // eslint-disable-next-line prettier/prettier
 export const clearGermesDataGeneratorOptions: ClearGermesDataGeneratorOptions = {
-  bookmakerName: 'Betfair',
+  bookmakerName: 'Betfair Sport',
   // additionalFields: {},
 };
 
