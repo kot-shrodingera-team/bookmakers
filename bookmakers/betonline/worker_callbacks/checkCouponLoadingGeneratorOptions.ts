@@ -141,27 +141,76 @@ const checkCouponLoadingGeneratorOptions = <CheckCouponLoadingGeneratorOptions>{
         throw new BetProcessingError();
       },
       betPlaced: async () => {
-        const actualCoefficientElement = await getElement(
-          '.fqdyK > em > span',
-          5000,
-          context,
+        const betPlacedMessageElement = <HTMLElement>(
+          window.germesData.betProcessing.stepResult
         );
-        if (!actualCoefficientElement) {
-          germesLog('Не найден итоговый коэффициент', LogType.ERROR);
-        } else {
-          const actualCoefficientText = text(actualCoefficientElement).replace(
-            ',',
-            '.',
+        const betPlacedMessageText = text(betPlacedMessageElement);
+        const betPlacedMessageRegex =
+          /Bet placed successfully\. Ticket#: (\d)+/i;
+        const betPlacedMatch = betPlacedMessageText.match(
+          betPlacedMessageRegex,
+        );
+        if (!betPlacedMatch) {
+          germesLog(
+            `Не удалось определить ID ставки из сообщения: "${betPlacedMessageText}". Не проверяем итоговый коэффициент коэффициент`,
+            LogType.ERROR,
           );
-          const actualCoefficient = Number(actualCoefficientText);
-          if (Number.isNaN(actualCoefficient)) {
-            germesLog(
-              `Непонятный формат итогового коэффициента: ${actualCoefficientText}`,
-              LogType.ERROR,
+          throw new BetProcessingSuccess();
+        }
+
+        const ticketID = betPlacedMatch[1];
+        germesLog(`TicketID: ${ticketID}`, LogType.INFO);
+        worker.TakeScreenShot(false);
+
+        const targetBet = await awaiter(() => {
+          const bets = [...document.querySelectorAll('.L5TBr > div')];
+          return bets.find((bet, index) => {
+            const ticketIDElement = bet.querySelector(
+              '.dndnH .Wd2o7:nth-child(2)',
             );
-          } else {
-            worker.StakeInfo.Coef = actualCoefficient;
-          }
+            if (!ticketIDElement) {
+              germesLog(
+                `Не найден TicketID ставки №${index + 1}`,
+                LogType.ERROR,
+              );
+              return false;
+            }
+            const ticketIDText = text(ticketIDElement);
+            return ticketIDText.includes(ticketID);
+          });
+        });
+        if (!targetBet) {
+          germesLog(
+            'Не найдена ставка с нужным TicketID. Не проверяем итоговый коэффициент коэффициент',
+            LogType.ERROR,
+          );
+          throw new BetProcessingSuccess();
+        }
+
+        const resultCoefficientElement =
+          targetBet.querySelector('.fqdyK > em > span');
+        if (!resultCoefficientElement) {
+          germesLog('Не найден итоговый коэффициент', LogType.ERROR);
+          throw new BetProcessingSuccess();
+        }
+        const resultCoefficientText = text(resultCoefficientElement).replace(
+          ',',
+          '.',
+        );
+        const resultCoefficient = Number(resultCoefficientText);
+        if (Number.isNaN(resultCoefficient)) {
+          germesLog(
+            `Непонятный формат итогового коэффициента: ${resultCoefficientText}`,
+            LogType.ERROR,
+          );
+        } else if (resultCoefficient !== worker.StakeInfo.Coef) {
+          germesLog(
+            `Коэффициент изменился ${worker.StakeInfo.Coef} => ${resultCoefficient}`,
+            LogType.INFO,
+          );
+          worker.StakeInfo.Coef = resultCoefficient;
+        } else {
+          germesLog('Коэффициент не изменился', LogType.INFO);
         }
         throw new BetProcessingSuccess();
       },
