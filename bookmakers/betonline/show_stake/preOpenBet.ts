@@ -1,5 +1,6 @@
 import { germesLog, getElement, LogType } from '../../../utils';
 import { JsFailError } from '../../../utils/errors';
+import { errorSelector } from '../worker_callbacks/checkCouponLoadingGeneratorOptions';
 
 const preOpenBet = async (): Promise<void> => {
   const context =
@@ -24,6 +25,11 @@ const preOpenBet = async (): Promise<void> => {
       throw new JsFailError('Вкладка купона не переключилась на BETSLIP');
     }
     germesLog('Вкладка купона переключилась на BETSLIP', LogType.DEV_INFO);
+
+    if (context.querySelector(errorSelector)) {
+      window.location.reload();
+      throw new JsFailError('В купоне висит ошибка. Перезагружаем страницу');
+    }
 
     await getElement('.I2MdV, .g2u7Z', 5000, context); // ожидание появления какой-нибудь ставки в купоне, или пустого купона
   }

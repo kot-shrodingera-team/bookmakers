@@ -21,7 +21,7 @@ import { CheckCouponLoadingGeneratorOptions } from '../../../utils/generators/wo
 
 const placeBetButtonSelector = '.Kx2Ob:not([disabled=""])';
 const loaderSelector = '.Kx2Ob[disabled=""]';
-const errorSelector = '.qTb_h';
+export const errorSelector = '.qTb_h';
 const betPlacedSelector = '.ek_L6';
 
 const loaderNotAppearedTimeout =
