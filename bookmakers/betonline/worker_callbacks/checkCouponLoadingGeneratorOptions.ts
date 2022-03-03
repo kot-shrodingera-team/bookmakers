@@ -128,7 +128,16 @@ const checkCouponLoadingGeneratorOptions = <CheckCouponLoadingGeneratorOptions>{
           sendErrorMessage(errorText);
           sendDevTGBotMessage(errorText);
         }
-        errorElement.remove();
+        germesLog('Ждём, пока исчезнет ошибка', LogType.INFO);
+        const errorDissappeared = await awaiter(
+          () => !context.querySelector(errorSelector),
+          10000,
+        );
+        if (!errorDissappeared) {
+          germesLog('Ошибка не исчезла', LogType.ERROR);
+        } else {
+          germesLog('Ошибка исчезла', LogType.INFO);
+        }
         throw new BetProcessingError();
       },
       betPlaced: async () => {
